@@ -13,23 +13,31 @@
     <script src="react/build/react.js"></script>
     <script src="react/build/react-dom.js"></script>
     <script>
+        var Component = React.createClass({
+            propTypes: {
+                firstName: React.PropTypes.string.isRequired,
+                middleName: React.PropTypes.string,
+                familyName: React.PropTypes.string.isRequired,
+                address: React.PropTypes.string,
+            },
+            getDefaultProps: function () {
+                return {
+                    middleName: '',
+                    address: 'n/a',
+                }
+            },
+            render: function () {
+                return React.DOM.span(null, "My name is "
+                    + this.props.firstName + " " + this.props.familyName
+                );
+            }
+        });
+
         ReactDOM.render(
-            React.DOM.h1(
-                {
-                    id: "my-heading",
-                    className: "pretty",
-                    htmlFor: "me",
-                    style: {
-                        background: "black",
-                        color: "white",
-                        fontFamily: "Verdana"
-                    }
-                },
-                React.DOM.span(null,
-                    React.DOM.em(null, "Hell"),
-                    "o"
-                ),
-                " World!"),
+            React.createElement(Component, {
+                firstName: "Bob",
+                familyName: "Smith"
+            }),
             document.getElementById("app")
         );
     </script>
