@@ -15,16 +15,16 @@
     <script>
         var TextAreaCounter = React.createClass({
             propTypes: {
-                text: React.PropTypes.string,
+                defaultValue: React.PropTypes.string,
             },
             getDefaultProps: function () {
                 return {
-                    text: '',
+                    defaultValue: '',
                 };
             },
             getInitialState: function () {
                 return {
-                    text: this.props.text,
+                    text: this.props.defaultValue,
                 };
             },
             _textChange: function (ev) {
@@ -45,7 +45,7 @@
 
         ReactDOM.render(
             React.createElement(TextAreaCounter, {
-                text: "Bob",
+                defaultValue: "Bob",
             }),
             document.getElementById("app")
         );
