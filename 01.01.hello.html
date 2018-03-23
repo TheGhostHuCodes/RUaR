@@ -13,8 +13,7 @@
     <script src="react/build/react.js"></script>
     <script src="react/build/react-dom.js"></script>
     <script>
-        var TextAreaCounter = React.createClass({
-
+        var logMixin = {
             _log: function (methodName, args) {
                 console.log(methodName, args);
             },
@@ -33,6 +32,11 @@
             componentWillUnmount: function () {
                 this._log('componentWillUnmount', arguments);
             },
+        };
+
+        var TextAreaCounter = React.createClass({
+            name: 'TextAreaCounter',
+            mixins: [logMixin],
             propTypes: {
                 defaultValue: React.PropTypes.string,
             },
