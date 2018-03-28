@@ -1,0 +1,19 @@
+{
+  "name": "whinepad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yung-Jin Hu",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.5",
+    "react": "^0.14.9",
+    "react-dom": "^0.14.9"
+  },
+  "dependencies": {}
+}
