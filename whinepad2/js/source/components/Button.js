@@ -1,13 +1,16 @@
-import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+/* @flow */
 
-const Button = props =>
+import classNames from 'classnames';
+import React from 'react';
+
+type Props = {
+    href: ?string,
+    className: ?string,
+};
+
+const Button = (props: Props) =>
     props.href
         ? <a {...props} className={classNames('Button', props.className)} />
         : <button {...props} className={classNames('Button', props.className)} />;
-
-Button.PropTypes = {
-    href: PropTypes.string,
-};
 
 export default Button

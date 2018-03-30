@@ -1,3 +1,5 @@
+/* @flow */
+
 'use strict'; // always a good idea!
 
 
@@ -7,13 +9,20 @@ import ReactDOM from 'react-dom';
 import Whinepad from './components/Whinepad';
 import schema from './schema';
 
-let data = JSON.parse(localStorage.getItem('data'));
+let data: Array<Object>;
+const storage: ?string = localStorage.getItem('data');
 
 // Default example data, read from the schema.
-if (!data) {
-    data = {};
-    schema.forEach(item => data[item.id] = item.sample);
-    data = [data];
+if (!storage) {
+    data = [{}];
+    schema.forEach(item => data[0][item.id] = item.sample);
+} else {
+    data = JSON.parse(storage);
+}
+
+var pad = document.getElementById('pad')
+if (pad === null) {
+    throw new Error("no pad element");
 }
 
 ReactDOM.render(
@@ -23,5 +32,5 @@ ReactDOM.render(
         </div>
         <Whinepad schema={schema} initialData={data} />
     </div>,
-    document.getElementById('pad')
+    pad
 );
