@@ -1,3 +1,5 @@
+# QA
+eslint js/source
 # js transform
 babel js/source -d js/build
 # js package
