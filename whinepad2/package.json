@@ -1,0 +1,26 @@
+{
+  "name": "whinepad",
+  "version": "2.0.0",
+  "babel": {
+      "presets": [
+          "es2015",
+          "react"
+      ]
+  },
+  "description": "",
+  "main": "bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watch \"sh scripts/build.sh\" js/source css/"
+  },
+  "author": "Yung-Jin Hu",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.5",
+    "react": "^0.14.9",
+    "react-dom": "^0.14.9"
+  },
+  "dependencies": {}
+}
