@@ -1,16 +1,35 @@
+/* @flow */
+
 import Rating from './Rating';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Suggest from './Suggest';
 
-class FormInput extends Component {
-    getValue() {
+type FormInputFieldType = 'year' | 'suggest' | 'rating' | 'text' | 'input';
+
+export type FormInputFieldValue = string | number;
+
+export type FormInputField = {
+    type: FormInputFieldType,
+    defaultValue?: FormInputFieldValue,
+    id?: string,
+    options?: Array<string>,
+    label?: string,
+};
+
+class FormInput extends Component<FormInputField> {
+
+    static defaultProps = {
+        type: 'input',
+    };
+
+    getValue(): FormInputFieldValue {
         return 'value' in this.refs.input
             ? this.refs.input.value
             : this.refs.input.getValue();
     }
 
     render() {
-        const common = { // Properties applicable to all.
+        const common: Object = { // Properties applicable to all.
             id: this.props.id,
             ref: 'input',
             defaultValue: this.props.defaultValue,
@@ -37,12 +56,5 @@ class FormInput extends Component {
         }
     }
 }
-
-FormInput.propTypes = {
-    type: PropTypes.oneOf(['year', 'suggest', 'rating', 'text', 'input']),
-    id: PropTypes.string,
-    options: PropTypes.array, // As in auto-complete <option>s.
-    defaultValue: PropTypes.any,
-};
 
 export default FormInput

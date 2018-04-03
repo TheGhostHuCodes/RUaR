@@ -7,7 +7,7 @@ type Props = {
     defaultValue: number,
     readonly: boolean,
     max: number,
-    id: string,
+    id?: string,
 };
 
 type State = {
