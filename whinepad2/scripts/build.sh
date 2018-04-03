@@ -1,6 +1,7 @@
 # QA
-eslint js/source
+eslint js/source js/__tests__
 flow
+npm test
 # js transform
 babel js/source -d js/build
 # js package
