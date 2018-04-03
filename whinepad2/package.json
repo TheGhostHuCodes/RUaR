@@ -51,7 +51,7 @@
         "classnames": "^2.2.5",
         "invariant": "^2.2.4",
         "react": "^0.14.9",
-        "react-addons-test-utils": "^15.6.2",
+        "react-addons-test-utils": "^0.14.8",
         "react-dom": "^0.14.9"
     },
     "dependencies": {}
