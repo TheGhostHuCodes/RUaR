@@ -2,3 +2,4 @@ react/
 babel/
 *.swp
 node_modules/
+coverage/
