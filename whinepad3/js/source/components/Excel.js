@@ -1,8 +1,9 @@
 /* @flow */
 
+import * as Immutable from 'immutable';
 import Actions from './Actions';
-import CRUDActions from '../flux/CRUDActions'
-import CRUDStore from '../flux/CRUDStore'
+import CRUDActions from '../flux-imm/CRUDActions'
+import CRUDStore from '../flux-imm/CRUDStore'
 import Dialog from './Dialog';
 import Form from './Form';
 import FormInput from './FormInput';
@@ -10,8 +11,6 @@ import Rating from './Rating';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
-
-type Data = Array<Object>;
 
 type EditState = {
     row: number,
@@ -24,7 +23,7 @@ type DialogState = {
 }
 
 type State = {
-    data: Data,
+    data: Immutable.List<Object>,
     sortby: ?string,
     descending: boolean,
     edit: ?EditState,
@@ -137,7 +136,7 @@ class Excel extends Component<{}, State> {
     _renderDeleteDialog() {
         const index = this.state.dialog ? this.state.dialog.idx : null;
         invariant(typeof index === 'number', 'Unexpected dialog state');
-        const first = this.state.data[index];
+        const first = this.state.data.get(index);
         const nameguess = first[Object.keys(first)[0]];
         return (
             <Dialog

@@ -1,8 +1,8 @@
 /* @flow */
 
 import Button from './Button'; // <- For "add new item".
-import CRUDActions from '../flux/CRUDActions';
-import CRUDStore from '../flux/CRUDStore';
+import CRUDActions from '../flux-imm/CRUDActions';
+import CRUDStore from '../flux-imm/CRUDStore';
 import Dialog from './Dialog'; // <- To pop the "add new item" form.
 import Excel from './Excel';   // <- The table of all items.
 import Form from './Form';     // <- The "add new item" form.

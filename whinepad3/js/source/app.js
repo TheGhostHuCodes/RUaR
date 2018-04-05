@@ -3,7 +3,7 @@
 'use strict'; // always a good idea!
 
 
-import CRUDStore from './flux/CRUDStore';
+import CRUDStore from './flux-imm/CRUDStore';
 import Logo from './components/Logo';
 import React from 'react';
 import ReactDOM from 'react-dom';

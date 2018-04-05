@@ -1,6 +1,6 @@
 /* @flow */
 
-import CRUDStore from '../flux/CRUDStore';
+import CRUDStore from '../flux-imm/CRUDStore';
 import FormInput from './FormInput';
 import Rating from './Rating';
 import React, { Component } from 'react';

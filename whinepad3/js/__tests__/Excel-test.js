@@ -5,7 +5,7 @@ import TestUtils from 'react-addons-test-utils';
 
 const Excel = require('../source/components/Excel').default;
 const schema = require('../source/schema').default;
-const Store = require('../source/flux/CRUDStore').default;
+const Store = require('../source/flux-imm/CRUDStore').default;
 
 Store.init(schema);
 
