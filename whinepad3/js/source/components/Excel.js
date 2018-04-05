@@ -1,6 +1,8 @@
 /* @flow */
 
 import Actions from './Actions';
+import CRUDActions from '../flux/CRUDActions'
+import CRUDStore from '../flux/CRUDStore'
 import Dialog from './Dialog';
 import Form from './Form';
 import FormInput from './FormInput';
@@ -10,12 +12,6 @@ import classNames from 'classnames';
 import invariant from 'invariant';
 
 type Data = Array<Object>;
-
-type Props = {
-    schema: Array<Object>,
-    initialData: Data,
-    onDataChange: Function,
-}
 
 type EditState = {
     row: number,
@@ -35,40 +31,35 @@ type State = {
     dialog: ?DialogState,
 };
 
-class Excel extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+class Excel extends Component<{}, State> {
+
+    state: State;
+    schema: Array<Object>
+
+    constructor() {
+        super();
         this.state = {
-            data: this.props.initialData,
+            data: CRUDStore.getData(),
             sortby: null, // schema.id
             descending: false,
             edit: null, // [row index, schema.id],
             dialog: null, // {type, idx}
         };
-    }
-
-    componentWillReceiveProps(nextProps: Props) {
-        this.setState({ data: nextProps.initialData });
-    }
-
-    _fireDataChange(data: Data) {
-        this.props.onDataChange(data);
+        this.schema = CRUDStore.getSchema();
+        CRUDStore.addListener('change', () => {
+            this.setState({
+                data: CRUDStore.getData(),
+            })
+        });
     }
 
     _sort(key: string) {
-        let data = Array.from(this.state.data);
         const descending = this.state.sortby === key && !this.state.descending;
-        data.sort(function (a, b) {
-            return descending
-                ? (a[key] < b[key] ? 1 : -1)
-                : (a[key] > b[key] ? 1 : -1);
-        });
+        CRUDActions.sort(key, descending);
         this.setState({
-            data: data,
             sortby: key,
             descending: descending,
         });
-        this._fireDataChange(data);
     }
 
     _showEditor(e: Event) {
@@ -83,15 +74,11 @@ class Excel extends Component<Props, State> {
 
     _save(e: Event) {
         e.preventDefault();
-        const value = this.refs.input.getValue();
-        let data = Array.from(this.state.data);
         invariant(this.state.edit, 'Messed up edit state');
-        data[this.state.edit.row][this.state.edit.key] = value;
+        CRUDActions.updateField(this.state.edit.row, this.state.edit.key, this.refs.input.getValue());
         this.setState({
             edit: null,
-            data: data,
         });
-        this._fireDataChange(data);
     }
 
     _actionClick(rowidx: number, action: string) {
@@ -99,19 +86,13 @@ class Excel extends Component<Props, State> {
     }
 
     _deleteConfirmationClick(action: string) {
+        this.setState({ dialog: null });
         if (action === 'dismiss') {
-            this._closeDialog();
             return;
         }
-        const index = this.state.dialog ? this.state.dialog.idx : null;
+        const index = this.state.dialog && this.state.dialog.idx;
         invariant(typeof index === 'number', 'Unexpected dialog state');
-        let data = Array.from(this.state.data);
-        data.splice(index, 1);
-        this.setState({
-            dialog: null,
-            data: data,
-        });
-        this._fireDataChange(data);
+        CRUDActions.delete(index);
     }
 
     _closeDialog() {
@@ -119,19 +100,13 @@ class Excel extends Component<Props, State> {
     }
 
     _saveDataDialog(action: string) {
+        this.setState({ dialog: null });
         if (action === 'dismiss') {
-            this._closeDialog();
             return;
         }
-        let data = Array.from(this.state.data);
-        const index = this.state.dialog ? this.state.dialog.idx : null;
+        const index = this.state.dialog && this.state.dialog.idx;
         invariant(typeof index === 'number', 'Unexpected dialog state');
-        data[index] = this.refs.form.getData();
-        this.setState({
-            dialog: null,
-            data: data,
-        });
-        this._fireDataChange(data);
+        CRUDActions.updateRecord(index, this.refs.form.getData());
     }
 
     render() {
@@ -189,9 +164,8 @@ class Excel extends Component<Props, State> {
             >
                 <Form
                     ref="form"
-                    fields={this.props.schema}
-                    initialData={this.state.data[index]}
-                    readonly={readonly} />
+                    recordId={index}
+                    readonly={!!readonly} />
             </Dialog>
         );
     }
@@ -201,7 +175,7 @@ class Excel extends Component<Props, State> {
             <table>
                 <thead>
                     <tr>{
-                        this.props.schema.map(item => {
+                        this.schema.map(item => {
                             if (!item.show) {
                                 return null;
                             }
@@ -229,7 +203,7 @@ class Excel extends Component<Props, State> {
                         return (
                             <tr key={rowidx}>{
                                 Object.keys(row).map((cell, idx) => {
-                                    const schema = this.props.schema[idx];
+                                    const schema = this.schema[idx];
                                     if (!schema || !schema.show) {
                                         return null;
                                     }

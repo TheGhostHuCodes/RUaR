@@ -3,22 +3,14 @@
 'use strict'; // always a good idea!
 
 
+import CRUDStore from './flux/CRUDStore';
 import Logo from './components/Logo';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Whinepad from './components/Whinepad';
 import schema from './schema';
 
-let data: Array<Object>;
-const storage: ?string = localStorage.getItem('data');
-
-// Default example data, read from the schema.
-if (!storage) {
-    data = [{}];
-    schema.forEach(item => data[0][item.id] = item.sample);
-} else {
-    data = JSON.parse(storage);
-}
+CRUDStore.init(schema);
 
 var pad = document.getElementById('pad')
 if (pad === null) {
@@ -30,7 +22,7 @@ ReactDOM.render(
         <div className="app-header">
             <Logo /> Welcome to Whinepad!
         </div>
-        <Whinepad schema={schema} initialData={data} />
+        <Whinepad />
     </div>,
     pad
 );

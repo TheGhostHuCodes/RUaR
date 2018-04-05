@@ -17,7 +17,10 @@
         "watch": "watch \"sh scripts/build.sh\" js/source js/__tests__ css/"
     },
     "jest": {
-        "testMatch": [ "**/__tests__/**/*-test.js?(x)", "**/?(*.)(spec|test).js?(x)" ],
+        "testMatch": [
+            "**/__tests__/**/*-test.js?(x)",
+            "**/?(*.)(spec|test).js?(x)"
+        ],
         "unmockedModulePathPatterns": [
             "node_modules/react",
             "node_modules/react-dom",
@@ -50,6 +53,7 @@
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
         "classnames": "^2.2.5",
+        "fbemitter": "^2.1.1",
         "invariant": "^2.2.4",
         "react": "^0.14.9",
         "react-addons-test-utils": "^0.14.8",
